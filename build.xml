@@ -1,0 +1,80 @@
+<project name="plugin-Cast3m" default="test" basedir=".">
+
+    <property name="code.name" value="Cast3m" />
+    <property name="install.dir" value="${basedir}/Funz-${code.name}" />
+
+    <property name="funz.release" value="v1.10" />
+
+    <property name="build_plugin.xml" location="../funz-profile/build_plugin.xml" />
+    <import file="${build_plugin.xml}"/>
+
+    <property file="${code.name}.properties"/>
+	
+    <target name="dist" depends="dist-iopluginjar"/> <!-- dist-ioplugin: copy the plugin jar files -->
+	     
+    <target name="test" depends="test-iopluginjar"> <!-- test-iopluginjar: test the java plugin -->  
+        <property name="unit.test.jar" value="../funz-profile/lib/concutest-junit-4.7-withrt.jar" />   
+	<javac deprecation="true"
+               source="${java.compiler.version}"
+               target="${java.compiler.version}"
+               srcdir="${test.dir}"
+               destdir="${build.dir}"
+               encoding="ISO-8859-1"
+               debug="true">
+	     <classpath refid="plugin.classpath" />
+             <classpath path="${build.dir}" />
+             <classpath path="${unit.test.jar}" />
+	</javac>
+	    
+        <fileset id="tests" dir="${build.dir}" includes="**/*Test.class" />
+        <!--property name="tests.p" refid="tests"/>
+        <echo message="${tests.p}"/-->
+
+        <pathconvert pathsep="${line.separator}" property="testclass.list" refid="tests">
+            <map from="${build.dir}/" to=""/>
+        </pathconvert>
+        <!--echo message="${tests.list}"/>
+        <echo message="================"/-->
+        
+        <for list="${testclass.list}" param="test.class" delimiter="${line.separator}">
+            <sequential>
+                <echo message="@{test.class}"/>
+                <echo message="========================================="/>
+                <echo message="============= @{test.class} ============="/>
+                <echo message="========================================="/>
+                <propertyregex property="test.class" input="@{test.class}" regexp="\.class" replace="" global="true"  override="true"/>
+                <!--echo message="${test.class}"/-->
+                <propertyregex property="test.class.id" input="${test.class}" regexp="/" replace="\." global="true"  override="true"/>
+                <!--echo message="${test.class.id}"/-->
+                
+                <!--record name="${test.class.id}.txt" action="start" /-->
+                <!--<jacoco:coverage>-->  
+                <java classname="${test.class.id}" fork="true" timeout="360000" failonerror="false" resultproperty="@{test.class}.failed">
+                    <sysproperty key="app.home" value="${dist.dir}"/> <!-- setup root dir for static dependencies (eg. jar) -->
+		    <classpath refid="plugin.classpath" />
+                    <classpath path="${build.dir}" />
+                    <classpath path="${unit.test.jar}" />
+                    <assertions>
+                        <enable/>
+                    </assertions>
+                </java>
+                <!--</jacoco:coverage>-->
+                <!--record name="${test.class.id}.txt" action="stop"/-->
+                <if>
+                    <equals arg1="${@{test.class}.failed}" arg2="0" />
+                    <then>
+                    </then>
+                    <else>
+                        <property name="failed" value="1" />
+                    </else>
+                </if>
+            </sequential>
+        </for>
+        <fail message="Test failure detected, check test results." if="failed" />
+    </target>
+	
+    <target name="install" depends="install-plugin"/> <!-- test-ioplugin: test the plugin ascii files -->
+
+    <target name="super.clean" depends="clean"/>
+    <target name="super.run-reference-cases" depends="run-reference-cases"/>
+</project>
