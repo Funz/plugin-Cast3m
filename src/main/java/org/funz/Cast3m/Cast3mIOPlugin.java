@@ -1,24 +1,14 @@
 package org.funz.Cast3m;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
-import org.apache.commons.io.FileUtils;
 import org.funz.ioplugin.*;
-import org.funz.Constants;
 import org.funz.parameter.OutputFunctionExpression;
-import org.funz.script.ParseExpression;
 import org.funz.parameter.SyntaxRules;
-import org.funz.util.Parser;
 import org.funz.util.ParserUtils;
 import org.funz.log.Log;
-import org.funz.log.LogCollector.SeverityLevel;
 
 public class Cast3mIOPlugin extends ExtendedIOPlugin {
 
@@ -68,35 +58,28 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
      *  Parse: MESS 'dep_P2=' dep_P2;
      *  
      *  cmd:
-     *   ./Funz.sh CompileInput -m Cast3m -if samples/poutre_console.par.dgibi -> output
      *   ./Funz.sh ParseInput -m Cast3m -if samples/poutre_console.par.dgibi -> input
+     *   ./Funz.sh CompileInput -m Cast3m -if samples/poutre_console.par.dgibi -> output
      */
     @Override
     public void setInputFiles(File... inputfiles) {
+        // input files
         _inputfiles = inputfiles;
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put(ParseExpression.FILES, _inputfiles);
 
-        List<String> exprs = new ArrayList<String>();
-        exprs.add("grep(\"(.*)dgibi\",\"MESS '\")>>after(\"MESS '\")>>before(\"=\")>>trim()");
-        
-        for (String o : exprs) {
-            Object eval = ParseExpression.eval(o, params);
-            if (eval != null) {
-                if (eval instanceof String) {
-                    _output.put(eval.toString(), "?");
-                } else if (eval instanceof String[]) {
-                    String[] evals = (String[]) eval;
-                    for (String e : evals) {
-                        _output.put(e, "?");
-                    }
-                } else if (eval instanceof List) {
-                    List evals = (List) eval;
-                    for (Object e : evals) {
-                        _output.put(e.toString(), "?");
-                    }
-                } else {
-                    Log.logMessage("Cast3mIOPlugin " + getID(), SeverityLevel.INFO, false, "  output name expression " + o + " not evaluable:" + eval);
+        // scan input files
+        for (File fdgibi: DGibiHelper.filterFiles("dgibi", inputfiles)) {
+            String[] lines = ParserUtils.getASCIIFileLines(fdgibi);
+            // MESS 'var='
+            String[] vars = DGibiHelper.filterMess(lines);
+            for (String var: vars) {
+                _output.put(var, "?");
+            }
+            // OPTI SORT 'var_res.csv'
+            String[] csvvars = DGibiHelper.filterOptiSort(lines);
+            for (String var: csvvars) {
+                String[] vars2 = DGibiHelper.filterTable(lines, var);
+                for (String var2: vars2) {
+                    _output.put(var2, "?");
                 }
             }
         }
@@ -127,6 +110,19 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
                             lout.put(o, Double.NaN);
                         }
                     }
+                }
+            }
+        }
+
+        // special case for file "_res.csv"
+        File[] files = outdir.listFiles();
+        File[] csvfiles = DGibiHelper.filterFiles("_res.csv", files);
+        for (File f: csvfiles) {
+            Map<String, Double[]> columns = DGibiHelper.readCSV(f);
+            // System.out.println(columns);
+            for (String o : _output.keySet()) {
+                if (columns.containsKey(o)) {
+                    lout.put(o, columns.get(o));
                 }
             }
         }

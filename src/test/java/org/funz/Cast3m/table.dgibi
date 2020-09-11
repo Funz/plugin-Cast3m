@@ -1,0 +1,22 @@
+* Creation d'une table pour l'export EXCEL
+ta = TABLE;
+ta . 'TEMPS' = ls_temps;
+ta . 'DX1' = ls_dx1;
+ta . 'DX2' = ls_dx2;
+ta . 'DX3' = ls_dx3;
+ta . 'DX4' = ls_dx4;
+ta . 'DX5' = ls_dx5;
+ta . 'DX6' = ls_dx6;
+ta . 'DX7' = ls_dx7;
+ta . 'DX8' = ls_dx8;
+ta . 'DX9' = ls_dx9;
+ta . 'R0Z1' = ls_r0z1;
+ta . 'R0Z3' = ls_r0z3;
+ta . 'R0Z5' = ls_r0z5;
+ta . 'R0Z7' = ls_r0z7;
+ta . 'R0Z9' = ls_r0z9;
+ta . 'FX1' = ls_FX1;
+ta . 'FX9' = ls_FX9;
+ta . 'REACT' = EXTR ev_fodep 'ORDO';
+
+FIN;

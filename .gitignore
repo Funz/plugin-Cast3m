@@ -9,6 +9,8 @@
 /test/
 /lib/Funz/
 Funz-Cast3m/
+.vscode/
+cast3m.code-workspace
 
 /*.png
 /*.html
@@ -21,5 +23,3 @@ Funz-Cast3m/
 /*.Rdata
 /*.Rmd
 /*.exec
-
-cast3m.code-workspace

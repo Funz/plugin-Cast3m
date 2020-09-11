@@ -1,0 +1,10 @@
+* Commentaire
+
+OPTI SORT 'var_res.csv';
+SORT 'EXCE' ta;
+
+OPTI   SORT   'var2_res.csv' ;
+SORT 'EXCE' ta2;
+
+FIN;
+

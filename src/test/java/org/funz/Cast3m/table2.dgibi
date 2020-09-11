@@ -1,0 +1,12 @@
+* Creation d'une table pour l'export EXCEL
+ta = TABLE;
+ta . 'TEMPS' = ls_temps;
+ta . 'DX1' = ls_dx1;
+ta . 'DX2' = ls_dx2;
+
+ta2 = TABLE;
+ta2 . 'TEMPO' = ls_temps;
+ta2 . 'DX3' = ls_dx1;
+ta2 . 'DX2' = ls_dx2;
+
+FIN;
