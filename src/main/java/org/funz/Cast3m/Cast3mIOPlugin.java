@@ -1,3 +1,17 @@
+/**
+  * Project        : Prométhée / Cast3m 2020
+  * Web site       : http://promethee.irsn.org
+  * Copyright      : IRSN, Paris, FRANCE, 2020
+  *                  https://www.irsn.fr
+  *                  All copyright and trademarks reserved.
+  * Email          : https://www.irsn.fr/FR/Contact/Pages/Question.aspx
+  * License        : cf. LICENSE.txt
+  * Developed By   : Artenum SARL
+  * Authors        : Laurent Mallet
+  * Contract       : AL17_A02 / 22003083
+  * Creation Date  : 2020-09-01
+  */
+
 package org.funz.Cast3m;
 
 import java.io.File;
