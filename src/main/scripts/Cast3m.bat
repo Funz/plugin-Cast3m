@@ -1,3 +1,3 @@
 @echo off
 
-castem20 $*
+castem20 %1%

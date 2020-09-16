@@ -13,6 +13,7 @@ Cast3m plugin for Funz.
     <HOST name="127.0.0.1"  port="19004" />
 
     <CODE name='Cast3m' command='./scripts/Cast3m.sh' />
+    <CODE name='Cast3m' command='.\scripts\Cast3m.bat' />
 
 </CALCULATOR>
 ```
@@ -35,7 +36,9 @@ Cast3m plugin for Funz.
   
   <!-- script version -->
   <CODE name='Cast3m' command='./scripts/Cast3m.sh' />
+  <CODE name='Cast3m' command='.\scripts\Cast3m.bat' />
   <!-- java version for castem2018 -->
   <CODE name='Cast3m' cplugin='file:./plugins/calc/Cast3m.cplugin.jar'/>
+  <??? for windows>
 </CALCULATOR>
 ```
