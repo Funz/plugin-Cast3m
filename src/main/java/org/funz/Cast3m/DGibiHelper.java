@@ -42,7 +42,7 @@ public class DGibiHelper {
      * @return
      */
     public static String[] filterOptiSort (String[] lines) {
-        Pattern pattern = Pattern.compile("OPTI[ ]+SORT[ ]+'([\\w]+)_res.csv'[ ]*;");
+        Pattern pattern = Pattern.compile("OPTI[ ]+SORT[ ]+'([\\w_]+)_res.csv'[ ]*;");
         Pattern pattern2 = Pattern.compile("SORT[ ]+'EXCE'[ ]+([\\w_]*);");
 
         ArrayList<String> res = new ArrayList<String>();
@@ -93,7 +93,7 @@ public class DGibiHelper {
     }
 
     public static String[] filterMess (String[] lines) {
-        Pattern pattern = Pattern.compile("MESS[ ]+'([\\w]+)[ ]*=[ ]*'");
+        Pattern pattern = Pattern.compile("MESS[ ]+'([\\w_]+)[ ]*=[ ]*'");
         ArrayList<String> res = new ArrayList<String>();
         for (String line: lines) {
             // remove comment
@@ -156,5 +156,42 @@ public class DGibiHelper {
             System.out.println(e);
         }
         return columns;
+    }
+
+    public static void splitOuputs (HashMap<String, Object> outputs, List<String> g1, List<String> g2) {
+        for (Map.Entry<String, Object> entry : outputs.entrySet()) {
+            String k = entry.getKey();
+            Object obj = entry.getValue();
+            if (obj instanceof String) {
+                String v = (String) obj;
+                if (v == "?1") {
+                    g1.add(k);
+                } else if (v == "?2") {
+                    g2.add(k);
+                }
+              }
+        }
+    }
+
+    public static Double lookForScalar (String[] lines, String var) {
+        Pattern pattern = Pattern.compile("" + var + "=([\\d\\.\\+\\-E]+)[ ]*");
+
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i];
+            // remove $
+            if (line.startsWith("$")) continue;
+            String[] parts = line.split(";");
+            String code = parts[0];
+
+            // look for
+            Matcher matcher = pattern.matcher(code);
+            if (matcher.find()) {
+                try {
+                    String value = matcher.group(1);
+                    return Double.parseDouble(value);
+                } catch (Exception e) {}
+            }
+        }
+        return null;
     }
 }

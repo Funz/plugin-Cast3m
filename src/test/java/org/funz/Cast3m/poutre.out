@@ -1,0 +1,166 @@
+
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º                    Licence EDUCATION - RECHERCHE                       º
+ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+º          EXECUTION de bin_Cast3M_Win_DEVEL_64_18.exe ORIGINAL          º
+º                           Realisation 18.0.0                           º
+ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+º UTILISATEUR    : ellis                                                 º
+º REPERTOIRE EXEC: C:\Users\ellis\AppData\Local\Temp\funz\DESKTOP-UKB8656º
+º REPERTOIRE JEU : C:\Users\ellis\AppData\Local\Temp\funz\DESKTOP-UKB8656º
+º NOM FICHIER    : poutre_console.dgibi                                  º
+º TAILLE FICHIER : 1879 octets                                           º
+º DATE  DEBUT    : Wed 09/30/2020                                            º
+º HEURE DEBUT    : 22:33:48.91                                           º
+ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+º                                                                        º
+º                              `/shdddhy+.                               º
+º                            .sdhs+ooshdmNh:                             º
+º                           -mdo/--.-:+ydNNN+                            º
+º                           dms/-....:/odmNNN-                           º
+º                          .Nmy+:---:/oydmNNN+                           º
+º                           mmdyso+ooyhmmNNNN-                           º
+º          .---.`           :mNmmddddmmNNNNNyo/-`        .---.`          º
+º      `/yddddddmh+.         -yNNNmNNNNNNNdsyso+o+:. `/ydhhddddy+.       º
+º     :ddy+///+shmNmo`         -+ydmdNmho:` `-+syo++ydhs+//+oydmNmo`     º
+º    /mho:-...-/oymNNy            .y/d+`       `./shmy/-...-:+ydNNNy     º
+º    mms+:....-/ohmNNN/           `s:d/           `Nds/-...-/+ydmNNN:    º
+º   `Nmhs+/::/+oydmNNN+           `s:d/           .Nmy+/:://oydmNNNN/    º
+º    hNmdhyysyhdmmNNNN/`          `s:d/           .dNmhyssyhhdmNNNNm.    º
+º    .hNNmmmmmmNNNNNNs++/-.       `y/m/       `.-::+mNmmmmmmNNNNNNm:     º
+º     `+hmNNNNNNNNds:oyyo+++:.   :osohh+`  .-::/+sys/sdNNNNNNNNNds.      º
+º       `-+syyyso:.   `-+sssoos+ohyo/ohhyss//oyyo-` .++mhsyyys+:.        º
+º                         .:ods-.:odms--/ymmy/.`   -++dy`                º
+º                           `ms+ooymmyosydNN/     -/+ds`                 º
+º                            smy:.+h:.-+hNNd`    :/+do                   º
+º                         `-::dh+/hh+/+ydNNo+/.`/:od+                    º
+º       `-+syyyso:.   `.-::/oyhdmmmNmmmNNmhsso+ooom/  `-+syyyso:.        º
+º     `+hdysoosydmms:::/+sys/. ./sydsmhs+- .:sysoos+/+hhsoosshmNds.      º
+º    .hmy/:-.-:/shmNmoyyo:`       `s/d/     ./:dhsysddo/----/oydNNm:     º
+º    hmh+:....-:oymNNN/`          `y/d/    -/:hy` .mms/-...-:+ydmNNm.    º
+º   `Nmho/:--:/+ydmNNN+           `y/d/   -:/hs`  .Nms+:--:/+shdNNNN/    º
+º    mNmhysoosyhdmNNNN/           `s/d/  ::/d+    `NmdysoosyhdmNNNNN-    º
+º    /mNmmddddmmNNNNNh+:.`        .y+d+`/:od/   `-:oNNmmdddmmNNNNNNs     º
+º     :dmNNNNNNNNNNmhys+++/-`  -+yhdhdddyyd-`.:://oyhdNNNNNNNNNNNm+      º
+º      `:sdmmmmmmy+. `:oysoo+oydy+///+shmNmo:/+shs/. `/sdmmmmmmy+.       º
+º          `.--.`        -+yhmh+:-..-:/shmNNhho:`        .---.           º
+º                           mmy+:-..-:+shmNNN-                           º
+º                          .Nmho+////oshdmNNN+                           º
+º                           dNmdhyyyyhdmNNNNN-                           º
+º                           -mNNmmmmmNNNNNNN+                            º
+º                            .smNNNNNNNNNNh-                             º
+º                              `/shdddhs+.                               º
+º                                                                        º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+ *** Nombre de CPU ***  4 CPU
+
+ *** GEMAT MT  1.5  DEC 17 ***  ESOPE=1854570232 (MOTS)  BUF=     0 (MOTS)
+                            NTRK=  300000  LTRK=  303104 (MOTS)
+ **********     INFORMATIONS CAST3M     **********
+
+                                              DATE     17/04/12
+ ________________________________________________________________________
+  
+  
+ Documentation Generale sur Cast3M :
+   http://www-cast3m.cea.fr/index.php?xml=maj2011
+  
+ Nouveautes de Cast3M 2016 :
+   http://www-cast3m.cea.fr/html/ClubCast3m/club2016/
+          Club_Cast3m_2016_Millard.pdf
+  
+ ________________________________________________________________________
+  
+ $  * * POUTRE CONSOLE EN FLEXION SIMPLE 
+ $  * * 
+ $  * *                          | F 
+ $  * *                          | 
+ $  * *  |                       | 
+ $  * *  |P1                     v P2 
+ $  * *  |------------------------ 
+ $  * *  | 
+ $  * *  | 
+ $  * * 
+ $  * * Formule analytique de la flÃ¨che en fonction de l'effort : 
+ $  * * u = F*L^3/(3*E*I) 
+ $  * * oÃ¹ F est la force, L la longueur, 
+ $  * *    E le module de Young (210e9 pour l'acier), 
+ $  * *    I le moment d'inertie de la section de la poutre (largeur*hauteur^3/12) 
+ $  *   
+ $  * * OPTIONS DU CALCUL ******************************************** 
+ $  *   
+ $  * * Dimension 2 et Ã©lÃ©ments finis de type SEG2 
+ $  * OPTI DIME 2 ELEM SEG2; 
+ $  *   
+ $  * * ACQUISITION DES VARIABLES D'ENTREE *************************** 
+ $  *   
+ $  * ** OPTI ACQU 'input.txt'; 
+ $  * ** ACQU long*FLOTTANT haut*FLOTTANT larg*FLOTTANT F*FLOTTANT; 
+ $  * long = 0.30; 
+ $  * haut = 0.001; 
+ $  * larg = 0.01; 
+ $  * F = 1.; 
+ $  *   
+ $  * * Section 
+ $  * sect = haut*larg; 
+ $  * * Inertie 
+ $  * inrz = (larg*(haut**3))/12.; 
+ $  *   
+ $  * * MAILLAGE ****************************************************** 
+ $  *   
+ $  * * CrÃ©ation des noeuds 
+ $  * P1 = 0. 0.; 
+ $  * P2 = long 0.; 
+ $  * * CrÃ©ation de l'Ã©lÃ©ment fini 
+ $  * poutre = DROI 1 P1 P2; 
+ $  *   
+ $  * * MODELE ET MATERIAU ******************************************** 
+ $  *   
+ $  * mo_pout = MODE poutre 'MECANIQUE' 'ELASTIQUE' 'ISOTROPE' 'POUT'; 
+ $  * ma_pout = MATE mo_pout 'YOUN' 210e9 'NU' 0.3 
+ $  * 	'SECT' sect 'INRZ' inrz; 
+ $  *   
+ $  * * CONDITIONS AUX LIMITES **************************************** 
+ $  *   
+ $  * * Encastrement du point P1 
+ $  * enca = BLOQ 'DEPL' 'ROTA' P1; 
+ $  *   
+ $  * * Calcul de la matrice de rigiditÃ© 
+ $  * rigi1 = RIGI mo_pout ma_pout; 
+ $  * rigitot = enca et rigi1; 
+ $  *   
+ $  * * Chargement 
+ $  * char1 = FORC 'FY' (-1.*F) P2; 
+ $  *   
+ $  * * CALCUL ******************************************************** 
+ $  *   
+ $  * * RÃ©solution 
+ $  * dep1 = RESO rigitot char1; 
+ Taille de la matrice: 6 Facteur: 1.3867     Performance (Gflop/s): 0.0000
+ $  *   
+ $  * * Extraction du dÃ©placement au point d'intÃ©rÃªt 
+ $  * dep_P2 = EXTR dep1 'UY' P2; 
+ $  *   
+ $  * MESS 'dep_P2=' dep_P2; 
+ dep_P2=-5.14286E-02
+ $  *   
+ $  *   
+ $  * *  FIN DE l'EXECUTION ******************************************* 
+ $  *   
+ $  * FIN; 
+
+
+
+ **********     ARRET DU PROGRAMME CAST3M NIVEAU D'ERREUR:   0     **********
+
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º                          INFORMATIONS FINALES                          º
+ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
+º DATE  DEBUT    : Wed 09/30/2020      HEURE DEBUT    : 22:33:48.91          º
+º DATE  FIN      : Wed 09/30/2020      HEURE FIN      : 22:33:50.51          º
+º                                  DUREE          : 00:00:01,60          º
+º                                                                        º
+º Support  Cast3M : http://www-cast3m.cea.fr/index.php?page=mailsupport  º
+º Site Web Cast3M : http://www-cast3m.cea.fr/index.php                   º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼

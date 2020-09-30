@@ -16,7 +16,10 @@ package org.funz.Cast3m;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
 import org.funz.Cast3m.DGibiHelper;
 import static org.junit.Assert.*;
 
@@ -49,6 +52,15 @@ public class DGibiHelperTest {
         assertEquals(res.length, 2);
         assertEquals(res[0], "var");
         assertEquals(res[1], "var2");
+    }
+
+    @Test
+    public final void filterPoutreTest () {
+        String[] lines = DGibiHelper.loadDgibi(path + "poutre.dgibi");
+        String[] res = DGibiHelper.filterMess(lines);
+        System.out.println(Arrays.toString(res));
+        assertEquals(res.length, 1);
+        assertEquals(res[0], "dep_P2");
     }
 
     @Test
@@ -92,5 +104,52 @@ public class DGibiHelperTest {
         assertArrayEquals(columns.get("TEMPS"), temps);
         Double[] react = {0.0, 1.8459E+003, 3.6918E+003, 5.5377E+003, 7.3837E+003, 9.1997E+003, 1.0739E+004, 1.1983E+004, 1.3024E+004, 1.3944E+004, 1.4750E+004};
         assertArrayEquals(columns.get("REACT"), react);
+    }
+
+    @Test
+    public final void splitTest () {
+        HashMap<String, Object> outputs = new HashMap<String, Object>();
+        outputs.put("var1", "?1");
+        outputs.put("var2", "?2");
+        outputs.put("var3", "?2");
+        outputs.put("var4", "?1");
+        outputs.put("var5_", "?1");
+        List<String> g1 = new ArrayList<String>();
+        List<String> g2 = new ArrayList<String>();
+        DGibiHelper.splitOuputs(outputs, g1, g2);
+        assertEquals(g1.size(), 3);
+        assertEquals(g2.size(), 2);
+    }
+
+    @Test
+    public final void look4ScalarTest () {
+        String[] lines = { "var=2.3;", "var2" };
+        Double res = DGibiHelper.lookForScalar(lines, "var");
+        Double expected = 2.3;
+        assertEquals(res, expected);
+    }
+
+    @Test
+    public final void look4Scalar2Test () {
+        String[] lines = { "var=+2.322;", "var2" };
+        Double res = DGibiHelper.lookForScalar(lines, "var");
+        Double expected = 2.322;
+        assertEquals(res, expected);
+    }
+
+    @Test
+    public final void look4Scalar3Test () {
+        String[] lines = { "var=+2.32E2;", "var2" };
+        Double res = DGibiHelper.lookForScalar(lines, "var");
+        Double expected = 2.32E2;
+        assertEquals(res, expected);
+    }
+
+    @Test
+    public final void look4Scalar4Test () {
+        String[] lines =  DGibiHelper.loadDgibi(path + "poutre.out");
+        Double res = DGibiHelper.lookForScalar(lines, "dep_P2");
+        Double expected = -0.0514286;
+        assertEquals(res, expected);
     }
 }

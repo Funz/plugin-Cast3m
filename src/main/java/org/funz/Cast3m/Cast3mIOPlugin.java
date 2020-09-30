@@ -17,6 +17,8 @@ package org.funz.Cast3m;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import org.funz.ioplugin.*;
 import org.funz.parameter.OutputFunctionExpression;
@@ -86,14 +88,14 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
             // MESS 'var='
             String[] vars = DGibiHelper.filterMess(lines);
             for (String var: vars) {
-                _output.put(var, "?");
+                _output.put(var, "?1");
             }
             // OPTI SORT 'var_res.csv'
             String[] csvvars = DGibiHelper.filterOptiSort(lines);
             for (String var: csvvars) {
                 String[] vars2 = DGibiHelper.filterTable(lines, var);
                 for (String var2: vars2) {
-                    _output.put(var2, "?");
+                    _output.put(var2, "?2");
                 }
             }
         }
@@ -103,27 +105,24 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
     public HashMap<String, Object> readOutput(File outdir) {
         HashMap<String, Object> lout = new HashMap<String, Object>();
 
+        // split _ouput into two groups: scalars and vect
+        List<String> g1 = new ArrayList<String>();
+        List<String> g2 = new ArrayList<String>();
+        DGibiHelper.splitOuputs(_output, g1, g2);
+
         // special case for file "out.txt" (the output)
         File outfile = new File(outdir, "out.txt");
         if (outfile.exists()) {
             String fullcontent = ParserUtils.getASCIIFileContent(outfile);
             // System.out.println("parsing output:" + fullcontent);
-            for (String o : _output.keySet()) {
+            for (String o : g1) {
                 // o contains the variable name
                 String lines[] = fullcontent.split("\\r?\\n");
-                for (String line : lines) {
-                    int begin = line.indexOf(o + "=");
-                    if (begin == 0) {
-                        int end = line.indexOf("=") + 1;
-                        String word = line.substring(end);
-                        System.out.println("Look for " + o + " " + line + " " + word);
-                        try {
-                            double d = Double.parseDouble(word);
-                            lout.put(o, d);
-                        } catch (NumberFormatException nfe) {
-                            lout.put(o, Double.NaN);
-                        }
-                    }
+                Double val = DGibiHelper.lookForScalar(lines, o);
+                if (val != null) {
+                    lout.put(o, val);
+                } else {
+                    lout.put(o, Double.NaN);
                 }
             }
         }
@@ -134,7 +133,7 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
         for (File f: csvfiles) {
             Map<String, Double[]> columns = DGibiHelper.readCSV(f);
             // System.out.println(columns);
-            for (String o : _output.keySet()) {
+            for (String o : g2) {
                 if (columns.containsKey(o)) {
                     lout.put(o, columns.get(o));
                 }
