@@ -3,7 +3,7 @@
     <property name="code.name" value="Cast3m" />
     <property name="install.dir" value="${basedir}/Funz-${code.name}" />
 
-    <property name="funz.release" value="v1.10" />
+    <property name="funz.release" value="v1.11" />
 
     <property name="build_plugin.xml" location="../funz-profile/build_plugin.xml" />
     <import file="${build_plugin.xml}"/>
