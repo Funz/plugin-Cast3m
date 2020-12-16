@@ -174,7 +174,7 @@ public class DGibiHelper {
     }
 
     public static Double lookForScalar (String[] lines, String var) {
-        Pattern pattern = Pattern.compile("" + var + "=([\\d\\.\\+\\-E]+)[ ]*");
+        Pattern pattern = Pattern.compile("" + var + "=\\s*([\\d\\.\\+\\-E]+)[ ]*");
 
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
