@@ -12,7 +12,7 @@
   * Creation Date  : 2020-09-01
   */
 
-package org.funz.Cast3m;
+package org.funz.cast3m;
 
 import java.io.File;
 import java.util.Properties;

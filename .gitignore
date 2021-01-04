@@ -23,3 +23,5 @@ cast3m.code-workspace
 /*.Rdata
 /*.Rmd
 /*.exec
+/.classpath
+/.project
