@@ -6,5 +6,8 @@ SORT 'EXCE' ta;
 OPTI   SORT   'var2_res.csv' ;
 SORT 'EXCE' ta2;
 
+OPTI SORT 'text.txt';
+SORT 'CHAI' variable;
+
 FIN;
 

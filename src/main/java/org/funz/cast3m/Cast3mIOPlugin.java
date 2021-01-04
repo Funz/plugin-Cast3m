@@ -35,6 +35,7 @@ import org.funz.util.ParserUtils;
  */
 public class Cast3mIOPlugin extends ExtendedIOPlugin {
 
+    private static final String OUTFILE_NAME = "out.txt";
     private static final String PLUGIN_INFO = "Cast3m plugin made by Artenum\nCopyright IRSN";
 
     /**
@@ -92,19 +93,25 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
                 this._output.put(var, DGibiHelper.CASE_OUTPUT_KEY);
             }
 
-            // OPTI SORT 'var_res.csv'
-            final Map<String, String> optisortVariables = DGibiHelper.filterOptiSort(lines);
-            for (final Entry<String, String> entry : optisortVariables.entrySet()) {
+            // SORT 'CHAI'
+            final Map<String, String> chaiVars = DGibiHelper.filterSortChai(lines);
+            for (final Entry<String, String> entry : chaiVars.entrySet()) {
+                this._output.put(entry.getKey(), DGibiHelper.FILE_OUTPUT_PREFIX + entry.getValue());
+            }
+
+            // SORT 'EXCE'
+            final Map<String, String> excelVariables = DGibiHelper.filterSortExcel(lines);
+            for (final Entry<String, String> entry : excelVariables.entrySet()) {
                 final String[] vars2 = DGibiHelper.filterTable(lines, entry.getKey());
                 for (final String var2 : vars2) {
-                    this._output.put(var2, DGibiHelper.CSV_OUTPUT_PREFIX + entry.getValue());
+                    this._output.put(var2, DGibiHelper.FILE_OUTPUT_PREFIX + entry.getValue());
                 }
             }
 
-            // Lines of type "@EXCEL1 VAR (CHAI 'var' RUN '.csv')"
-            final Map<String, String> excelVars = DGibiHelper.filterExcel1(lines);
-            for (final Entry<String, String> entry : excelVars.entrySet()) {
-                this._output.put(entry.getKey(), DGibiHelper.CSV_OUTPUT_PREFIX + entry.getValue());
+            // @EXCEL1 procedure lines
+            final Map<String, String> excel1Vars = DGibiHelper.filterExcel1(lines);
+            for (final Entry<String, String> entry : excel1Vars.entrySet()) {
+                this._output.put(entry.getKey(), DGibiHelper.FILE_OUTPUT_PREFIX + entry.getValue());
             }
 
         }
@@ -117,6 +124,9 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
         // Read the "out.txt" (the output)
         this.readOutTxt(outdir, lout);
 
+        // Read other txt files
+        this.readNonCsvFiles(outdir, lout);
+
         // Read CSV files
         this.readCsvFiles(outdir, lout);
 
@@ -126,7 +136,7 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
     private void readOutTxt(final File outdir, final Map<String, Object> result) {
         final List<String> variables = DGibiHelper.extractSimpleVariables(this._output);
 
-        final File outfile = new File(outdir, "out.txt");
+        final File outfile = new File(outdir, Cast3mIOPlugin.OUTFILE_NAME);
         if (outfile.exists()) {
             final String fullcontent = ParserUtils.getASCIIFileContent(outfile);
             for (final String variable : variables) {
@@ -136,8 +146,29 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
                 if (val != null) {
                     result.put(variable, val);
                 } else {
-                    result.put(variable, Double.NaN);
+                    result.put(variable, "No value for variable '" + variable + "' inside '"
+                            + Cast3mIOPlugin.OUTFILE_NAME + "' file.");
                 }
+            }
+        }
+    }
+
+    private void readNonCsvFiles(final File outdir, final Map<String, Object> result) {
+        final Map<String, String> variablesToFilename = DGibiHelper.extractNonCsvVariables(this._output);
+
+        for (final Entry<String, String> variableAndFilename : variablesToFilename.entrySet()) {
+            final String variable = variableAndFilename.getKey();
+            final String filename = variableAndFilename.getValue();
+            final File file = new File(outdir, filename);
+            if (file.exists()) {
+                final String fullcontent = ParserUtils.getASCIIFileContent(file);
+                if (this.isDouble(fullcontent)) {
+                    result.put(variable, Double.parseDouble(fullcontent));
+                } else {
+                    result.put(variable, "Cannot parse content '" + fullcontent + "' from file '" + filename + "'");
+                }
+            } else {
+                result.put(variable, "Missing output file '" + filename + "'");
             }
         }
     }
@@ -147,7 +178,8 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
 
         for (final Entry<String, String> variableAndFilename : variablesToFilename.entrySet()) {
             final String variable = variableAndFilename.getKey();
-            final File csvFile = new File(outdir, variableAndFilename.getValue());
+            final String filename = variableAndFilename.getValue();
+            final File csvFile = new File(outdir, filename);
 
             if (csvFile.exists()) {
                 final List<String[]> columns = DGibiHelper.readCSV(csvFile);
@@ -157,7 +189,7 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
                     this.readCsvFileWithHeader(variable, columns, result);
                 }
             } else {
-                result.put(variable, Double.NaN);
+                result.put(variable, "Missing output file '" + filename + "'");
             }
         }
     }
@@ -201,8 +233,12 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
                 final String v = (String) entry.getValue();
                 if (v.equals(DGibiHelper.CASE_OUTPUT_KEY)) {
                     s.add(new OutputFunctionExpression.Numeric(k));
-                } else if (v.startsWith(DGibiHelper.CSV_OUTPUT_PREFIX)) {
-                    s.add(new OutputFunctionExpression.NumericArray(k));
+                } else if (v.startsWith(DGibiHelper.FILE_OUTPUT_PREFIX)) {
+                    if (v.endsWith(".csv")) {
+                        s.add(new OutputFunctionExpression.NumericArray(k));
+                    } else {
+                        s.add(new OutputFunctionExpression.Numeric(k));
+                    }
                 }
             }
         }

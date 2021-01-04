@@ -63,12 +63,24 @@ public class DGibiHelperTest {
     }
 
     @Test
-    public final void filterOptiSortTest() {
+    public final void filterSortExcelTest() {
         final String[] lines = DGibiHelper.loadDgibi(this.path + "outfilevar.dgibi");
-        final Map<String, String> map = DGibiHelper.filterOptiSort(lines);
+        final Map<String, String> map = DGibiHelper.filterSortExcel(lines);
 
         final List<String> res = new ArrayList<>(map.keySet());
         final List<String> exp = Arrays.asList("ta", "ta2");
+        res.sort(String::compareTo);
+
+        Assert.assertEquals(exp, res);
+    }
+
+    @Test
+    public final void filterSortChaiTest() {
+        final String[] lines = DGibiHelper.loadDgibi(this.path + "outfilevar.dgibi");
+        final Map<String, String> map = DGibiHelper.filterSortChai(lines);
+
+        final List<String> res = new ArrayList<>(map.keySet());
+        final List<String> exp = Arrays.asList("variable");
         res.sort(String::compareTo);
 
         Assert.assertEquals(exp, res);

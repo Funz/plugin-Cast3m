@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -49,12 +50,18 @@ class DGibiHelper {
      * Placeholder used to indicate that an output should be found inside a CSV file.<br>
      * After the "?", the name of the CSV file is given.
      */
-    static final String CSV_OUTPUT_PREFIX = "?";
+    static final String FILE_OUTPUT_PREFIX = "?";
 
     private static final Pattern EXCEL1_SIMPLE_PATTERN = Pattern.compile("\\s*@EXCEL1\\s+(\\w+)\\s+'(\\w+)\\.csv'\\s*");
 
     private static final Pattern EXCEL1_CHAI_PATTERN = Pattern
-            .compile("\\s*@EXCEL1\\s+(\\w+)\\s+\\(\\s*CHAI(NE)?\\s+(.+)\\)");
+            .compile("\\s*@EXCEL1\\s+(\\w+)\\s+\\(\\s*CHAI(?:NE)?\\s+(.+)\\)");
+
+    private static final Pattern OPTI_SORT_PATTERN = Pattern.compile("\\s*OPTI\\s+SORT\\s+'([\\w\\.]+)'\\s*;");
+
+    private static final Pattern SORT_EXCE_PATTERN = Pattern.compile("SORT\\s+'EXCE'\\s+([\\w_]*);");
+
+    private static final Pattern SORT_CHAI_PATTERN = Pattern.compile("SORT\\s+'CHAI'\\s+([\\w_]*);");
 
     /**
      * @param path
@@ -100,7 +107,7 @@ class DGibiHelper {
             final Matcher matcher = DGibiHelper.EXCEL1_CHAI_PATTERN.matcher(line);
             if (matcher.find()) {
                 final String variableName = matcher.group(1);
-                final String[] complexFileName = matcher.group(3).split(" ");
+                final String[] complexFileName = matcher.group(2).split(" ");
                 final StringBuilder filenameBuilder = new StringBuilder();
                 for (final String item : complexFileName) {
                     if (item.startsWith("'")) {
@@ -118,15 +125,27 @@ class DGibiHelper {
     }
 
     /**
-     * filter lines to extract variable saved in tables - look line with OPTI SORT '${filename}'; - and then look if
-     * it's an excel output and which variable is ouputed
+     * Filter lines to extract variable saved in tables - look line with OPTI SORT '${filename}'; - and then look if
+     * it's an excel output and which variable is outputed
      *
      * @param lines
-     * @return the name of the 'EXCEL' variable associated to the name of the output csv file
+     * @return the name of the 'EXCEL' variable associated to the name of the output CSV file
      */
-    public static Map<String, String> filterOptiSort(final String[] lines) {
-        final Pattern optiPattern = Pattern.compile("\\s*OPTI\\s+SORT\\s+'(\\w+\\.csv)'\\s*;");
-        final Pattern sortPattern = Pattern.compile("SORT\\s+'EXCE'\\s+([\\w_]*);");
+    static Map<String, String> filterSortExcel(final String[] lines) {
+        return DGibiHelper.filterOptiSort(lines, DGibiHelper.SORT_EXCE_PATTERN);
+    }
+
+    /**
+     * Filter lines to extract variable saved in txt file
+     *
+     * @param lines
+     * @return the name of the 'CHAI' variable associated to the name of the output file
+     */
+    static Map<String, String> filterSortChai(final String[] lines) {
+        return DGibiHelper.filterOptiSort(lines, DGibiHelper.SORT_CHAI_PATTERN);
+    }
+
+    private static Map<String, String> filterOptiSort(final String[] lines, final Pattern sortPattern) {
 
         final Map<String, String> results = new HashMap<>();
         for (int i = 0; i < lines.length; i++) {
@@ -136,7 +155,7 @@ class DGibiHelper {
                 continue;
             }
             // look for
-            final Matcher optiMatcher = optiPattern.matcher(line);
+            final Matcher optiMatcher = DGibiHelper.OPTI_SORT_PATTERN.matcher(line);
             // this file is interesting! look the next line
             if (optiMatcher.find() && ((i + 1) < lines.length)) {
                 final String filename = optiMatcher.group(1);
@@ -226,13 +245,27 @@ class DGibiHelper {
      * @return the name and the filename of the CSV output variables
      */
     static Map<String, String> extractCsvVariables(final Map<String, Object> outputs) {
+        return DGibiHelper.extractVariables(outputs, DGibiHelper.FILE_OUTPUT_PREFIX, v -> v.endsWith(".csv"));
+    }
+
+    /**
+     * @param outputs
+     *            the raw output map
+     * @return the name and the filename of the non CSV output variables (usually txt files)
+     */
+    static Map<String, String> extractNonCsvVariables(final Map<String, Object> outputs) {
+        return DGibiHelper.extractVariables(outputs, DGibiHelper.FILE_OUTPUT_PREFIX, v -> !v.endsWith(".csv"));
+    }
+
+    private static Map<String, String> extractVariables(final Map<String, Object> outputs, final String prefix,
+            final Predicate<String> additionalTest) {
         final Map<String, String> results = new HashMap<>();
         for (final Entry<String, Object> entry : outputs.entrySet()) {
             final Object obj = entry.getValue();
             if (obj instanceof String) {
                 final String value = (String) obj;
-                if (value.startsWith(DGibiHelper.CSV_OUTPUT_PREFIX) && value.endsWith(".csv")) {
-                    final String filename = value.replace(DGibiHelper.CSV_OUTPUT_PREFIX, "");
+                if (value.startsWith(prefix) && additionalTest.test(value)) {
+                    final String filename = value.replace(prefix, "");
                     results.put(entry.getKey(), filename);
                 }
             }
