@@ -196,12 +196,14 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
     public LinkedList<OutputFunctionExpression> suggestOutputFunctions() {
         final LinkedList<OutputFunctionExpression> s = new LinkedList<>();
         for (final Entry<String, Object> entry : this._output.entrySet()) {
-
             final String k = entry.getKey();
-            if (k.equals(DGibiHelper.CASE_OUTPUT_KEY)) {
-                s.add(new OutputFunctionExpression.Numeric(k));
-            } else if (k.startsWith(DGibiHelper.CSV_OUTPUT_PREFIX)) {
-                s.add(new OutputFunctionExpression.Numeric2DArray());
+            if (entry.getValue() instanceof String) {
+                final String v = (String) entry.getValue();
+                if (v.equals(DGibiHelper.CASE_OUTPUT_KEY)) {
+                    s.add(new OutputFunctionExpression.Numeric(k));
+                } else if (v.startsWith(DGibiHelper.CSV_OUTPUT_PREFIX)) {
+                    s.add(new OutputFunctionExpression.NumericArray(k));
+                }
             }
         }
         return s;
