@@ -133,11 +133,11 @@ public class DGibiHelperTest {
     @Test
     public final void splitTest() {
         final HashMap<String, Object> outputs = new HashMap<>();
-        outputs.put("var1", "?1");
-        outputs.put("var2", "?fileone.csv");
-        outputs.put("var3", "?other.csv");
-        outputs.put("var4", "?1");
-        outputs.put("var5_", "?1");
+        outputs.put("var1", DGibiHelper.CASE_OUTPUT_KEY);
+        outputs.put("var2", DGibiHelper.FILE_OUTPUT_PREFIX + "fileone.csv");
+        outputs.put("var3", DGibiHelper.FILE_OUTPUT_PREFIX + "other.csv");
+        outputs.put("var4", DGibiHelper.CASE_OUTPUT_KEY);
+        outputs.put("var5_", DGibiHelper.CASE_OUTPUT_KEY);
 
         // ?1
         final List<String> g1 = DGibiHelper.extractSimpleVariables(outputs);

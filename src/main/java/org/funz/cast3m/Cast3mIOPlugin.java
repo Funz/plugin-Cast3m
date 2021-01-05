@@ -82,6 +82,7 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
     public void setInputFiles(final File... inputfiles) {
         // input files
         this._inputfiles = inputfiles;
+        this._output.clear();
 
         // scan input files
         for (final File fdgibi : DGibiHelper.filterFiles("dgibi", inputfiles)) {

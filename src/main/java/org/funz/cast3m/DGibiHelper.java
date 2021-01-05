@@ -47,10 +47,10 @@ class DGibiHelper {
     static final String CASE_OUTPUT_KEY = "?1";
 
     /**
-     * Placeholder used to indicate that an output should be found inside a CSV file.<br>
-     * After the "?", the name of the CSV file is given.
+     * Placeholder used to indicate that an output should be found inside a file.<br>
+     * After the "#", the name of the file is given.
      */
-    static final String FILE_OUTPUT_PREFIX = "?";
+    static final String FILE_OUTPUT_PREFIX = "#";
 
     private static final Pattern EXCEL1_SIMPLE_PATTERN = Pattern.compile("\\s*@EXCEL1\\s+(\\w+)\\s+'(\\w+)\\.csv'\\s*");
 
@@ -172,11 +172,17 @@ class DGibiHelper {
     }
 
     /**
-     * find variable saved in table to extract columns variables - look for var = TABLE
+     * Find variable saved in table to extract columns variables - look for var = TABLE
+     *
+     * @param lines
+     *            lines of the file
+     * @param variable
+     *            the variable to filter
+     * @return the columns variables
      */
     public static String[] filterTable(final String[] lines, final String variable) {
-        final Pattern pattern = Pattern.compile(variable + "[ ]*=[ ]*TABLE[ ]*;");
-        final Pattern pattern2 = Pattern.compile(variable + "[ ]+\\.[ ]+'([\\w_]*)[ ]*'[ ]*=");
+        final Pattern pattern = Pattern.compile(variable + "\\s*=\\s*TABLE\\s*;");
+        final Pattern pattern2 = Pattern.compile(variable + "\\s+\\.\\s+'([\\w_]*)\\s*'\\s*=");
 
         final ArrayList<String> res = new ArrayList<>();
         for (int i = 0; i < lines.length; i++) {
