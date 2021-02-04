@@ -12,7 +12,7 @@
   * Creation Date  : 2020-09-01
   */
 
-package org.funz.cast3m;
+package org.funz.Cast3m;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class DGibiHelperTest {
-    final String path = "./src/test/java/org/funz/cast3m/";
+    final String path = "./src/test/java/org/funz/Cast3m/";
 
     public static void main(final String args[]) {
         org.junit.runner.JUnitCore.main(DGibiHelperTest.class.getName());

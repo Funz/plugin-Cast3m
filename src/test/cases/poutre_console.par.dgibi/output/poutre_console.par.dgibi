@@ -23,7 +23,7 @@ OPTI DIME 2 ELEM SEG2;
 
 ** OPTI ACQU 'input.txt';
 ** ACQU long*FLOTTANT haut*FLOTTANT larg*FLOTTANT F*FLOTTANT;
-long =0.6;
+long = 0.30;
 haut = 0.001;
 larg = 0.01;
 F = 1.;
@@ -38,6 +38,7 @@ inrz = (larg*(haut**3))/12.;
 * Création des noeuds
 P1 = 0. 0.;
 P2 = long 0.;
+P12 = long/2. 0.;
 * Création de l'élément fini
 poutre = DROI 1 P1 P2;
 
@@ -66,11 +67,25 @@ dep1 = RESO rigitot char1;
 
 * Extraction du déplacement au point d'intérêt
 dep_P2 = EXTR dep1 'UY' P2;
+dep_P12 = EXTR dep1 'UY' P12;
+dep_P1 = EXTR dep1 'UY' P1;
 
 * Export du résultat dans un fichier texte
-** OPTI SORT 'output.txt';
-** SORT 'CHAI' dep_P2;
+* OPTI SORT 'output.txt';
+* SORT 'CHAI' dep_P2;
+MESS 'dep_P1=' dep_P1;
+MESS 'dep_P12=' dep_P12;
 MESS 'dep_P2=' dep_P2;
+
+* Creation d'une table pour l'export EXCEL
+T1 = 'PROG' dep_P1 dep_P12 dep_P2 ;
+
+ta_res = TABLE;
+ta_res . 'dep' = T1;
+
+
+OPTI SORT 'resultats_res.csv';
+SORT 'EXCE' ta_res;
 
 * Remarque :
 * si dep_P2 était une liste (PROG) il faudrait faire

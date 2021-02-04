@@ -13,7 +13,7 @@
   * Creation Date  : 2020-09-01
   */
 
-package org.funz.cast3m;
+package org.funz.Cast3m;
 
 import java.io.File;
 import java.io.FileReader;
@@ -298,12 +298,12 @@ class DGibiHelper {
                         result.get(column)[lineIndex] = line[column].trim();
                     }
                 }
-            } else {
+            } else {   
                 return Collections.emptyList();
             }
 
         } catch (final Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
             return Collections.emptyList();
         }
 

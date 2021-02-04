@@ -12,10 +12,11 @@
   * Contract       : AL17_A02 / 22003083
   * Creation Date  : 2020-09-01
   */
-package org.funz.cast3m;
+package org.funz.Cast3m;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.funz.log.Log;
 import org.funz.parameter.OutputFunctionExpression;
 import org.funz.parameter.SyntaxRules;
 import org.funz.util.ParserUtils;
+import org.math.array.DoubleArray;
 
 /**
  * IOPlugin class for Cast3m.
@@ -175,6 +177,7 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
     }
 
     private void readCsvFiles(final File outdir, final Map<String, Object> result) {
+        System.err.println("Will readCsvFiles ");
         final Map<String, String> variablesToFilename = DGibiHelper.extractCsvVariables(this._output);
 
         for (final Entry<String, String> variableAndFilename : variablesToFilename.entrySet()) {
@@ -184,6 +187,7 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
 
             if (csvFile.exists()) {
                 final List<String[]> columns = DGibiHelper.readCSV(csvFile);
+
                 if (this.isDouble(columns.get(0)[0])) {
                     this.readCsvFileNoHeader(variable, columns, result);
                 } else {
@@ -197,18 +201,16 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
 
     private void readCsvFileWithHeader(final String variable, final List<String[]> columns,
             final Map<String, Object> result) {
-        final String[] strings = columns.get(0);
 
         final List<String[]> doubleColumns = new ArrayList<>(columns);
         doubleColumns.remove(0);
 
-        for (int index = 0; index < strings.length; index++) {
-            final String current = strings[index];
-            if (current.contains(variable)) {
-                final int colIndex = index;
-                final double[] doubles = doubleColumns.stream().mapToDouble(a -> Double.parseDouble(a[colIndex]))
-                        .toArray();
-                result.put(variable, doubles);
+        for (int c = 0; c < columns.size(); c++) {
+            String name = columns.get(c)[0];
+            if (name.contains(variable)) {
+                double[] array = new double[columns.get(c).length-1];
+                for (int i = 0; i<array.length; i++) array[i] = Double.parseDouble(columns.get(c)[i+1]);
+                result.put(variable, array);
             }
         }
     }
