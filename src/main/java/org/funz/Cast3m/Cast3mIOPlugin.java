@@ -46,9 +46,9 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
     public Cast3mIOPlugin() {
         this.variableStartSymbol = SyntaxRules.START_SYMBOL_DOLLAR;
         this.variableLimit = SyntaxRules.LIMIT_SYMBOL_PARENTHESIS;
-        this.formulaStartSymbol = SyntaxRules.START_SYMBOL_PERCENT;
+        this.formulaStartSymbol = SyntaxRules.START_SYMBOL_AT;
         this.formulaLimit = SyntaxRules.LIMIT_SYMBOL_BRACKETS;
-        this.commentLine = "#";
+        this.commentLine = "*";
         this.setID("Cast3m");
         this.source = "http://irsn.fr/Cast3m";
         this.doc_links = new String[] { "http://www-cast3m.cea.fr/" };
@@ -177,7 +177,6 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
     }
 
     private void readCsvFiles(final File outdir, final Map<String, Object> result) {
-        System.err.println("Will readCsvFiles ");
         final Map<String, String> variablesToFilename = DGibiHelper.extractCsvVariables(this._output);
 
         for (final Entry<String, String> variableAndFilename : variablesToFilename.entrySet()) {
