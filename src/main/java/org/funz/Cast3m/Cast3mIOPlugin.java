@@ -44,11 +44,11 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
     public Cast3mIOPlugin() {
         this.variableStartSymbol = SyntaxRules.START_SYMBOL_DOLLAR;
         this.variableLimit = SyntaxRules.LIMIT_SYMBOL_PARENTHESIS;
-        this.formulaStartSymbol = SyntaxRules.START_SYMBOL_AT;
+        this.formulaStartSymbol = SyntaxRules.START_SYMBOL_PERCENT;
         this.formulaLimit = SyntaxRules.LIMIT_SYMBOL_BRACKETS;
         this.commentLine = "*";
         this.setID("Cast3m");
-        this.source = "http://irsn.fr/Cast3m";
+        this.source = "https://github.com/Funz/plugin-Cast3m";
         this.doc_links = new String[] { "http://www-cast3m.cea.fr/" };
         this.information = Cast3mIOPlugin.PLUGIN_INFO;
     }
