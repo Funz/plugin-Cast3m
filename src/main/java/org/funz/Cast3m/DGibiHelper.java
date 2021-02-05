@@ -12,7 +12,6 @@
   * Contract       : AL17_A02 / 22003083
   * Creation Date  : 2020-09-01
   */
-
 package org.funz.Cast3m;
 
 import java.io.File;
@@ -52,25 +51,63 @@ class DGibiHelper {
      */
     static final String FILE_OUTPUT_PREFIX = "#";
 
-    private static final Pattern EXCEL1_SIMPLE_PATTERN = Pattern.compile("\\s*@EXCEL1\\s+(\\w+)\\s+'(\\w+)\\.csv'\\s*");
+    private static final Pattern EXCEL1_SIMPLE_PATTERN = DGibiHelper
+            .compile("\\s*@excel1\\s+(\\w+)\\s+'(\\w+)\\.csv'\\s*");
 
-    private static final Pattern EXCEL1_CHAI_PATTERN = Pattern
-            .compile("\\s*@EXCEL1\\s+(\\w+)\\s+\\(\\s*CHAI(?:NE)?\\s+(.+)\\)");
+    private static final Pattern EXCEL1_CHAI_PATTERN = DGibiHelper
+            .compile("\\s*@excel1\\s+(\\w+)\\s+\\(\\s*chai(?:ne)?\\s+(.+)\\)");
 
-    private static final Pattern OPTI_SORT_PATTERN = Pattern.compile("\\s*OPTI\\s+SORT\\s+'([\\w\\.]+)'\\s*;");
+    private static final Pattern OPTI_SORT_PATTERN = DGibiHelper.compile("\\s*opti\\s+sort\\s+'([\\w\\.]+)'\\s*;");
 
-    private static final Pattern SORT_EXCE_PATTERN = Pattern.compile("SORT\\s+'EXCE'\\s+([\\w_]*);");
+    private static final Pattern SORT_EXCE_PATTERN = DGibiHelper.compile("sort\\s+'exce(?:l)?'\\s+([\\w_]*);");
 
-    private static final Pattern SORT_CHAI_PATTERN = Pattern.compile("SORT\\s+'CHAI'\\s+([\\w_]*);");
+    private static final Pattern SORT_CHAI_PATTERN = DGibiHelper.compile("sort\\s+'chai(?:ne)?'\\s+([\\w_]*);");
 
     /**
      * @param path
      *            path to the dgibi file.
      * @return the list of read lines
      */
-    public static String[] loadDgibi(final String path) {
-        final File fdgibi = new File(path);
-        return ParserUtils.getASCIIFileLines(fdgibi);
+    public static List<String> loadDgibi(final String path) {
+        return DGibiHelper.loadDgibi(new File(path));
+    }
+
+    /**
+     * @param fdgibi
+     *            the dgibi file.
+     * @return the list of read lines
+     */
+    public static List<String> loadDgibi(final File fdgibi) {
+        final String[] rawLines = ParserUtils.getASCIIFileLines(fdgibi);
+
+        final List<String> cleanLines = new ArrayList<>(rawLines.length);
+
+        int index = 0;
+        while (index < rawLines.length) {
+            final String line = rawLines[index].trim();
+            if (!"".equals(line) && !line.startsWith("*")) {
+                // Ignore comments lines
+                if (line.endsWith(";")) {
+                    // We have a complete line, we can store it
+                    cleanLines.add(line);
+                } else if (index < (rawLines.length - 1)) {
+                    // We need to look for the end of the line
+                    final StringBuilder newLine = new StringBuilder(line);
+
+                    index++;
+                    String nextLine = rawLines[index].trim();
+                    while (!nextLine.trim().endsWith(";") && (index < (rawLines.length - 1))) {
+                        newLine.append(' ').append(nextLine);
+                        index++;
+                        nextLine = rawLines[index].trim();
+                    }
+                    newLine.append(' ').append(nextLine);
+                    cleanLines.add(newLine.toString());
+                }
+            }
+            index++;
+        }
+        return cleanLines;
     }
 
     /**
@@ -88,15 +125,13 @@ class DGibiHelper {
      *
      * @see "http://www-cast3m.cea.fr/index.php?page=notices&notice=%40EXCEL1"
      */
-    public static Map<String, String> filterExcel1(final String[] lines) {
+    public static Map<String, String> filterExcel1(final List<String> lines) {
+        // Filter lines starting with @EXCEL
+        final List<String> filtered = lines.stream().filter(l -> l.toLowerCase().startsWith("@excel1"))
+                .collect(Collectors.toList());
 
         final Map<String, String> result = new HashMap<>();
-        for (final String line : lines) {
-            // remove comment
-            if (DGibiHelper.ignoreLine(line)) {
-                continue;
-            }
-
+        for (final String line : filtered) {
             // Search for the first form
             final Matcher simpleMatcher = DGibiHelper.EXCEL1_SIMPLE_PATTERN.matcher(line);
             if (simpleMatcher.find()) {
@@ -131,7 +166,7 @@ class DGibiHelper {
      * @param lines
      * @return the name of the 'EXCEL' variable associated to the name of the output CSV file
      */
-    static Map<String, String> filterSortExcel(final String[] lines) {
+    static Map<String, String> filterSortExcel(final List<String> lines) {
         return DGibiHelper.filterOptiSort(lines, DGibiHelper.SORT_EXCE_PATTERN);
     }
 
@@ -141,25 +176,27 @@ class DGibiHelper {
      * @param lines
      * @return the name of the 'CHAI' variable associated to the name of the output file
      */
-    static Map<String, String> filterSortChai(final String[] lines) {
+    static Map<String, String> filterSortChai(final List<String> lines) {
         return DGibiHelper.filterOptiSort(lines, DGibiHelper.SORT_CHAI_PATTERN);
     }
 
-    private static Map<String, String> filterOptiSort(final String[] lines, final Pattern sortPattern) {
+    private static Map<String, String> filterOptiSort(final List<String> lines, final Pattern sortPattern) {
+
+        // Filter lines starting with OPTI
+        final List<String> filtered = lines.stream().filter(l -> l.toLowerCase().startsWith("opti"))
+                .collect(Collectors.toList());
 
         final Map<String, String> results = new HashMap<>();
-        for (int i = 0; i < lines.length; i++) {
-            final String line = lines[i];
-            // remove comment
-            if (line.isEmpty() || line.startsWith("*")) {
-                continue;
-            }
+        for (int i = 0; i < filtered.size(); i++) {
+            final String line = filtered.get(i);
+            final int nextIndex = lines.indexOf(line) + 1;
+
             // look for
             final Matcher optiMatcher = DGibiHelper.OPTI_SORT_PATTERN.matcher(line);
             // this file is interesting! look the next line
-            if (optiMatcher.find() && ((i + 1) < lines.length)) {
+            if (optiMatcher.find() && (nextIndex < lines.size())) {
                 final String filename = optiMatcher.group(1);
-                final String nextLine = lines[i + 1];
+                final String nextLine = lines.get(nextIndex);
                 final Matcher sortMatcher = sortPattern.matcher(nextLine);
                 if (sortMatcher.find()) {
                     final String excelVariable = sortMatcher.group(1);
@@ -180,18 +217,19 @@ class DGibiHelper {
      *            the variable to filter
      * @return the columns variables
      */
-    public static String[] filterTable(final String[] lines, final String variable) {
-        final Pattern pattern = Pattern.compile(variable + "\\s*=\\s*TABLE\\s*;");
-        final Pattern pattern2 = Pattern.compile(variable + "\\s+\\.\\s+'([\\w_]*)\\s*'\\s*=");
+    public static List<String> filterTable(final List<String> lines, final String variable) {
+        final List<String> filtered = lines.stream().filter(l -> l.toLowerCase().startsWith(variable.toLowerCase()))
+                .collect(Collectors.toList());
+
+        final Pattern pattern = DGibiHelper.compile(variable + "\\s*=\\s*table\\s*;");
+        final Pattern pattern2 = DGibiHelper.compile(variable + "\\s+\\.\\s+'([\\w_]*)\\s*'\\s*=");
 
         final ArrayList<String> res = new ArrayList<>();
-        for (int i = 0; i < lines.length; i++) {
-            final String line = lines[i];
+        for (final String line : filtered) {
             final Matcher matcher = pattern.matcher(line);
             if (matcher.find()) {
                 // search in the following lines
-                for (int j = i + 1; j < lines.length; j++) {
-                    final String fline = lines[j];
+                for (final String fline : filtered) {
                     final Matcher matcher2 = pattern2.matcher(fline);
                     if (matcher2.find()) {
                         res.add(matcher2.group(1));
@@ -199,24 +237,78 @@ class DGibiHelper {
                 }
             }
         }
-        return res.toArray(new String[0]);
+        return res;
     }
 
-    public static String[] filterMess(final String[] lines) {
-        final Pattern pattern = Pattern.compile("MESS[ ]+'([\\w_]+)[ ]*=[ ]*'");
-        final ArrayList<String> res = new ArrayList<>();
-        for (final String line : lines) {
-            // remove comment
-            if (line.startsWith("*")) {
-                continue;
+    /**
+     * Find variable saved in EVOL MANU to extract columns variables - look for var = EVOL MANU
+     *
+     * @param lines
+     *            lines of the file
+     * @param variable
+     *            the variable to filter
+     * @return the columns variables
+     */
+    public static List<String> filterEvolManu(final List<String> lines, final String variable) {
+        final List<String> filtered = lines.stream().filter(l -> l.toLowerCase().startsWith(variable.toLowerCase()))
+                .collect(Collectors.toList());
+        final Pattern pattern = DGibiHelper
+                .compile(variable + "\\s*=\\s*evol\\s+manu\\s+'(.*)'\\s+[^']+\\s+'(.*)'\\s+[^']+\\s*;");
+        return DGibiHelper.filterOneLiner(filtered, pattern);
+    }
+
+    /**
+     * Find variable saved in EXTR to extract columns variables - look for var = EXTR
+     *
+     * @param lines
+     *            lines of the file
+     * @param variable
+     *            the variable to filter
+     * @return the columns variables
+     */
+    public static List<String> filterExtr(final List<String> lines, final String variable) {
+        final List<String> filtered = lines.stream().filter(l -> l.toLowerCase().startsWith(variable.toLowerCase()))
+                .collect(Collectors.toList());
+        final Pattern pattern = DGibiHelper.compile(variable + "\\s*=\\s*extr\\s+[^']+\\s+'(.*)'\\s*;");
+        final List<String> extractedVars = DGibiHelper.filterOneLiner(filtered, pattern);
+        if (extractedVars.size() == 1) {
+            // We have found the unique column. An extraction does not necessarily have a name, so we put the name of
+            // the variable
+            extractedVars.clear();
+            extractedVars.add(variable);
+        }
+        return extractedVars;
+    }
+
+    private static List<String> filterOneLiner(final List<String> lines, final Pattern pattern) {
+        final List<String> res = new ArrayList<>();
+        for (int i = 0; (i < lines.size()) && res.isEmpty(); i++) {
+            final String line = lines.get(i);
+            // PB performance // PB text on several lines
+            final Matcher matcher = pattern.matcher(line);
+            if (matcher.find()) {
+                for (int groupIndex = 1; groupIndex <= matcher.groupCount(); groupIndex++) {
+                    res.add(matcher.group(groupIndex));
+                }
             }
+        }
+        return res;
+    }
+
+    public static List<String> filterMess(final List<String> lines) {
+        final List<String> filtered = lines.stream().filter(l -> l.toLowerCase().startsWith("mess"))
+                .collect(Collectors.toList());
+
+        final Pattern pattern = DGibiHelper.compile("mess[ ]+'([\\w_]+)[ ]*=[ ]*'");
+        final List<String> res = new ArrayList<>();
+        for (final String line : filtered) {
             // look for
             final Matcher matcher = pattern.matcher(line);
             if (matcher.find()) {
                 res.add(matcher.group(1));
             }
         }
-        return res.toArray(new String[0]);
+        return res;
     }
 
     public static File[] filterFiles(final String suffix, final File... inputfiles) {
@@ -298,7 +390,7 @@ class DGibiHelper {
                         result.get(column)[lineIndex] = line[column].trim();
                     }
                 }
-            } else {   
+            } else {
                 return Collections.emptyList();
             }
 
@@ -320,7 +412,7 @@ class DGibiHelper {
     }
 
     public static Double lookForScalar(final String[] lines, final String var) {
-        final Pattern pattern = Pattern.compile("" + var + "=\\s*([\\d\\.\\+\\-E]+)[ ]*");
+        final Pattern pattern = DGibiHelper.compile("" + var + "=\\s*([\\d\\.\\+\\-E]+)[ ]*");
 
         for (final String line : lines) {
             // remove $
@@ -346,14 +438,9 @@ class DGibiHelper {
     /**
      * Look for a variable value
      */
-    private static String getVariableValue(final String[] lines, final String item) {
+    private static String getVariableValue(final List<String> lines, final String item) {
         for (final String line : lines) {
-            // remove $
-            if (line.startsWith("$")) {
-                continue;
-            }
-
-            final String cleanLine = line.trim();
+            final String cleanLine = line;
             if (cleanLine.startsWith(item)) {
                 return cleanLine.split("=")[1].trim().replace(";", "").trim();
             }
@@ -361,8 +448,8 @@ class DGibiHelper {
         return null;
     }
 
-    private static boolean ignoreLine(final String line) {
-        return line.isEmpty() || line.startsWith("*");
+    private static Pattern compile(final String regexp) {
+        return Pattern.compile("(?iu)" + regexp);
     }
 
     private DGibiHelper() {

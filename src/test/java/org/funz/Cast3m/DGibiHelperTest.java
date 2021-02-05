@@ -47,24 +47,24 @@ public class DGibiHelperTest {
 
     @Test
     public final void filterMessTest() {
-        final String[] lines = DGibiHelper.loadDgibi(this.path + "outvar.dgibi");
-        final String[] res = DGibiHelper.filterMess(lines);
-        Assert.assertEquals(res.length, 2);
-        Assert.assertEquals(res[0], "var");
-        Assert.assertEquals(res[1], "var2");
+        final List<String> lines = DGibiHelper.loadDgibi(this.path + "outvar.dgibi");
+        final List<String> res = DGibiHelper.filterMess(lines);
+        Assert.assertEquals(res.size(), 2);
+        Assert.assertEquals(res.get(0), "var");
+        Assert.assertEquals(res.get(1), "var2");
     }
 
     @Test
     public final void filterPoutreTest() {
-        final String[] lines = DGibiHelper.loadDgibi(this.path + "poutre.dgibi");
-        final String[] res = DGibiHelper.filterMess(lines);
-        Assert.assertEquals(res.length, 1);
-        Assert.assertEquals(res[0], "dep_P2");
+        final List<String> lines = DGibiHelper.loadDgibi(this.path + "poutre.dgibi");
+        final List<String> res = DGibiHelper.filterMess(lines);
+        Assert.assertEquals(res.size(), 1);
+        Assert.assertEquals(res.get(0), "dep_P2");
     }
 
     @Test
     public final void filterSortExcelTest() {
-        final String[] lines = DGibiHelper.loadDgibi(this.path + "outfilevar.dgibi");
+        final List<String> lines = DGibiHelper.loadDgibi(this.path + "outfilevar.dgibi");
         final Map<String, String> map = DGibiHelper.filterSortExcel(lines);
 
         final List<String> res = new ArrayList<>(map.keySet());
@@ -76,7 +76,7 @@ public class DGibiHelperTest {
 
     @Test
     public final void filterSortChaiTest() {
-        final String[] lines = DGibiHelper.loadDgibi(this.path + "outfilevar.dgibi");
+        final List<String> lines = DGibiHelper.loadDgibi(this.path + "outfilevar.dgibi");
         final Map<String, String> map = DGibiHelper.filterSortChai(lines);
 
         final List<String> res = new ArrayList<>(map.keySet());
@@ -88,23 +88,23 @@ public class DGibiHelperTest {
 
     @Test
     public final void filterTableTest() {
-        final String[] lines = DGibiHelper.loadDgibi(this.path + "table.dgibi");
-        final String[] res = DGibiHelper.filterTable(lines, "ta");
-        Assert.assertEquals(res.length, 18);
-        Assert.assertEquals(res[0], "TEMPS");
-        Assert.assertEquals(res[1], "DX1");
+        final List<String> lines = DGibiHelper.loadDgibi(this.path + "table.dgibi");
+        final List<String> res = DGibiHelper.filterTable(lines, "ta");
+        Assert.assertEquals(res.size(), 18);
+        Assert.assertEquals(res.get(0), "TEMPS");
+        Assert.assertEquals(res.get(1), "DX1");
     }
 
     @Test
     public final void filterTable2Test() {
-        final String[] lines = DGibiHelper.loadDgibi(this.path + "table2.dgibi");
-        final String[] res = DGibiHelper.filterTable(lines, "ta");
-        Assert.assertEquals(res.length, 3);
-        Assert.assertEquals(res[0], "TEMPS");
-        Assert.assertEquals(res[1], "DX1");
-        final String[] res2 = DGibiHelper.filterTable(lines, "ta2");
-        Assert.assertEquals(res2.length, 3);
-        Assert.assertEquals(res2[0], "TEMPO");
+        final List<String> lines = DGibiHelper.loadDgibi(this.path + "table2.dgibi");
+        final List<String> res = DGibiHelper.filterTable(lines, "ta");
+        Assert.assertEquals(res.size(), 3);
+        Assert.assertEquals(res.get(0), "TEMPS");
+        Assert.assertEquals(res.get(1), "DX1");
+        final List<String> res2 = DGibiHelper.filterTable(lines, "ta2");
+        Assert.assertEquals(res2.size(), 3);
+        Assert.assertEquals(res2.get(0), "TEMPO");
     }
 
     @Test
@@ -174,8 +174,8 @@ public class DGibiHelperTest {
 
     @Test
     public final void look4Scalar4Test() {
-        final String[] lines = DGibiHelper.loadDgibi(this.path + "poutre.out");
-        final Double res = DGibiHelper.lookForScalar(lines, "dep_P2");
+        final List<String> lines = DGibiHelper.loadDgibi(this.path + "poutre.out");
+        final Double res = DGibiHelper.lookForScalar(lines.toArray(new String[lines.size()]), "dep_P2");
         final Double expected = -0.0514286;
         Assert.assertEquals(res, expected);
     }

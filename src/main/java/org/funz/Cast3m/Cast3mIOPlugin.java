@@ -16,7 +16,6 @@ package org.funz.Cast3m;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +27,6 @@ import org.funz.log.Log;
 import org.funz.parameter.OutputFunctionExpression;
 import org.funz.parameter.SyntaxRules;
 import org.funz.util.ParserUtils;
-import org.math.array.DoubleArray;
 
 /**
  * IOPlugin class for Cast3m.
@@ -88,11 +86,11 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
 
         // scan input files
         for (final File fdgibi : DGibiHelper.filterFiles("dgibi", inputfiles)) {
-            final String[] lines = ParserUtils.getASCIIFileLines(fdgibi);
+            final List<String> lines = DGibiHelper.loadDgibi(fdgibi);
 
             // MESS 'var='
-            final String[] vars = DGibiHelper.filterMess(lines);
-            for (final String var : vars) {
+            final List<String> messVars = DGibiHelper.filterMess(lines);
+            for (final String var : messVars) {
                 this._output.put(var, DGibiHelper.CASE_OUTPUT_KEY);
             }
 
@@ -105,10 +103,30 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
             // SORT 'EXCE'
             final Map<String, String> excelVariables = DGibiHelper.filterSortExcel(lines);
             for (final Entry<String, String> entry : excelVariables.entrySet()) {
-                final String[] vars2 = DGibiHelper.filterTable(lines, entry.getKey());
-                for (final String var2 : vars2) {
-                    this._output.put(var2, DGibiHelper.FILE_OUTPUT_PREFIX + entry.getValue());
+                final String variable = entry.getKey();
+
+                // Look for 'TABLE'
+                final List<String> vars = new ArrayList<>(DGibiHelper.filterTable(lines, variable));
+
+                if (vars.isEmpty()) {
+                    // Look for columns defined with 'EVOL MANU'
+                    vars.addAll(DGibiHelper.filterEvolManu(lines, variable));
                 }
+
+                if (vars.isEmpty()) {
+                    // Look for columns defined with 'EXTR'
+                    vars.addAll(DGibiHelper.filterExtr(lines, variable));
+                }
+
+                if (vars.isEmpty()) {
+                    System.err.println("Unable to find variable definition for " + variable);
+                }
+
+                // Register variables
+                for (final String var : vars) {
+                    this._output.put(var, DGibiHelper.FILE_OUTPUT_PREFIX + entry.getValue());
+                }
+
             }
 
             // @EXCEL1 procedure lines
@@ -201,17 +219,17 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
     private void readCsvFileWithHeader(final String variable, final List<String[]> columns,
             final Map<String, Object> result) {
 
-        final List<String[]> doubleColumns = new ArrayList<>(columns);
-        doubleColumns.remove(0);
-
-        for (int c = 0; c < columns.size(); c++) {
-            String name = columns.get(c)[0];
-            if (name.contains(variable)) {
-                double[] array = new double[columns.get(c).length-1];
-                for (int i = 0; i<array.length; i++) array[i] = Double.parseDouble(columns.get(c)[i+1]);
+        for (final String[] column : columns) {
+            final String name = column[0];
+            if (name.contains(variable) || variable.startsWith(name)) {
+                final double[] array = new double[column.length - 1];
+                for (int i = 0; i < array.length; i++) {
+                    array[i] = Double.parseDouble(column[i + 1]);
+                }
                 result.put(variable, array);
             }
         }
+
     }
 
     private void readCsvFileNoHeader(final String variable, final List<String[]> columns,
