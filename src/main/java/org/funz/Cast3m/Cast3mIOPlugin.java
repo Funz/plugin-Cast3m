@@ -167,8 +167,7 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
                 if (val != null) {
                     result.put(variable, val);
                 } else {
-                    result.put(variable, "No value for variable '" + variable + "' inside '"
-                            + Cast3mIOPlugin.OUTFILE_NAME + "' file.");
+                    result.put(variable, Double.NaN);
                 }
             }
         }
@@ -186,10 +185,10 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
                 if (this.isDouble(fullcontent)) {
                     result.put(variable, Double.parseDouble(fullcontent));
                 } else {
-                    result.put(variable, "Cannot parse content '" + fullcontent + "' from file '" + filename + "'");
+                    result.put(variable, Double.NaN);
                 }
             } else {
-                result.put(variable, "Missing output file '" + filename + "'");
+                result.put(variable, new double[0]);
             }
         }
     }
@@ -211,7 +210,7 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
                     this.readCsvFileWithHeader(variable, columns, result);
                 }
             } else {
-                result.put(variable, "Missing output file '" + filename + "'");
+                result.put(variable, new double[0]);
             }
         }
     }
