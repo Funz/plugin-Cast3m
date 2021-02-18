@@ -1,0 +1,186 @@
+
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                    Licence EDUCATION - RECHERCHE                       บ
+ฬออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+บ          EXECUTION de bin_Cast3M_Win_DEVEL_64_20.exe ORIGINAL          บ
+บ                           Realisation 20.0.1                           บ
+ฬออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+บ UTILISATEUR    : RICHET-YAN                                            บ
+บ REPERTOIRE EXEC: C:\Users\RICHET~1\AppData\Local\Temp\funz\A19P1038\628บ
+บ REPERTOIRE JEU : C:\Users\RICHET~1\AppData\Local\Temp\funz\A19P1038\628บ
+บ NOM FICHIER    : poutre_console.par.dgibi                              บ
+บ TAILLE FICHIER : 2359 octets                                           บ
+บ DATE  DEBUT    : 01/02/2021                                            บ
+บ HEURE DEBUT    : 19:19:22.44                                           บ
+ฬออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+|                                                                        |
+|                              `/shdddhy+.                               |
+|                            .sdhs+ooshdmNh:                             |
+|                           -mdo/--.-:+ydNNN+                            |
+|                           dms/-....:/odmNNN-                           |
+|                          .Nmy+:---:/oydmNNN+                           |
+|                           mmdyso+ooyhmmNNNN-                           |
+|          .---.`           :mNmmddddmmNNNNNyo/-`        .---.`          |
+|      `/yddddddmh+.         -yNNNmNNNNNNNdsyso+o+:. `/ydhhddddy+.       |
+|     :ddy+///+shmNmo`         -+ydmdNmho:` `-+syo++ydhs+//+oydmNmo`     |
+|    /mho:-...-/oymNNy            .y/d+`       `./shmy/-...-:+ydNNNy     |
+|    mms+:....-/ohmNNN/           `s:d/           `Nds/-...-/+ydmNNN:    |
+|   `Nmhs+/::/+oydmNNN+           `s:d/           .Nmy+/:://oydmNNNN/    |
+|    hNmdhyysyhdmmNNNN/`          `s:d/           .dNmhyssyhhdmNNNNm.    |
+|    .hNNmmmmmmNNNNNNs++/-.       `y/m/       `.-::+mNmmmmmmNNNNNNm:     |
+|     `+hmNNNNNNNNds:oyyo+++:.   :osohh+`  .-::/+sys/sdNNNNNNNNNds.      |
+|       `-+syyyso:.   `-+sssoos+ohyo/ohhyss//oyyo-` .++mhsyyys+:.        |
+|                         .:ods-.:odms--/ymmy/.`   -++dy`                |
+|                           `ms+ooymmyosydNN/     -/+ds`                 |
+|                            smy:.+h:.-+hNNd`    :/+do                   |
+|                         `-::dh+/hh+/+ydNNo+/.`/:od+                    |
+|       `-+syyyso:.   `.-::/oyhdmmmNmmmNNmhsso+ooom/  `-+syyyso:.        |
+|     `+hdysoosydmms:::/+sys/. ./sydsmhs+- .:sysoos+/+hhsoosshmNds.      |
+|    .hmy/:-.-:/shmNmoyyo:`       `s/d/     ./:dhsysddo/----/oydNNm:     |
+|    hmh+:....-:oymNNN/`          `y/d/    -/:hy` .mms/-...-:+ydmNNm.    |
+|   `Nmho/:--:/+ydmNNN+           `y/d/   -:/hs`  .Nms+:--:/+shdNNNN/    |
+|    mNmhysoosyhdmNNNN/           `s/d/  ::/d+    `NmdysoosyhdmNNNNN-    |
+|    /mNmmddddmmNNNNNh+:.`        .y+d+`/:od/   `-:oNNmmdddmmNNNNNNs     |
+|     :dmNNNNNNNNNNmhys+++/-`  -+yhdhdddyyd-`.:://oyhdNNNNNNNNNNNm+      |
+|      `:sdmmmmmmy+. `:oysoo+oydy+///+shmNmo:/+shs/. `/sdmmmmmmy+.       |
+|          `.--.`        -+yhmh+:-..-:/shmNNhho:`        .---.           |
+|                           mmy+:-..-:+shmNNN-                           |
+|                          .Nmho+////oshdmNNN+                           |
+|                           dNmdhyyyyhdmNNNNN-                           |
+|                           -mNNmmmmmNNNNNNN+                            |
+|                            .smNNNNNNNNNNh-                             |
+|                              `/shdddhs+.                               |
+|                                                                        |
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+ *** Nombre de CPU ***  8 CPU
+
+ *** GEMAT MT  1.8  JUI 19 ***  ESOPE=  1566 (Mo)  LIBRE=  6484 (Mo)
+                                NTRK =300000       LTRK =  2368 (Ko)
+
+ *********************     INFORMATIONS CAST3M     *********************
+
+                                              DATE     18/12/10
+ Documentation Generale sur Cast3M :
+   http://www-cast3m.cea.fr/index.php?xml=maj2011
+  
+ Nouveautes de Cast3M :
+   http://www-cast3m.cea.fr/index.php?xml=nouvelleversioncast3m
+  
+ ***********************************************************************
+  
+ $  * * POUTRE CONSOLE EN FLEXION SIMPLE 
+ $  * * 
+ $  * *                          | F 
+ $  * *                          | 
+ $  * *  |                       | 
+ $  * *  |P1                     v P2 
+ $  * *  |------------------------ 
+ $  * *  | 
+ $  * *  | 
+ $  * * 
+ $  * * Formule analytique de la fl่che en fonction de l'effort : 
+ $  * * u = F*L^3/(3*E*I) 
+ $  * * o๙ F est la force, L la longueur, 
+ $  * *    E le module de Young (210e9 pour l'acier), 
+ $  * *    I le moment d'inertie de la section de la poutre (largeur*hauteur^3/12) 
+ $  *   
+ $  * * OPTIONS DU CALCUL ******************************************** 
+ $  *   
+ $  * * Dimension 2 et ้l้ments finis de type SEG2 
+ $  * OPTI DIME 2 ELEM SEG2; 
+ $  *   
+ $  * * ACQUISITION DES VARIABLES D'ENTREE *************************** 
+ $  *   
+ $  * ** OPTI ACQU 'input.txt'; 
+ $  * ** ACQU long*FLOTTANT haut*FLOTTANT larg*FLOTTANT F*FLOTTANT; 
+ $  * long = 0.30; 
+ $  * haut = 0.001; 
+ $  * larg = 0.01; 
+ $  * F = 1.; 
+ $  *   
+ $  * * Section 
+ $  * sect = haut*larg; 
+ $  * * Inertie 
+ $  * inrz = (larg*(haut**3))/12.; 
+ $  *   
+ $  * * MAILLAGE ****************************************************** 
+ $  *   
+ $  * * Cr้ation des noeuds 
+ $  * P1 = 0. 0.; 
+ $  * P2 = long 0.; 
+ $  * P12 = long/2. 0.; 
+ $  * * Cr้ation de l'้l้ment fini 
+ $  * poutre = DROI 1 P1 P2; 
+ $  *   
+ $  * * MODELE ET MATERIAU ******************************************** 
+ $  *   
+ $  * mo_pout = MODE poutre 'MECANIQUE' 'ELASTIQUE' 'ISOTROPE' 'POUT'; 
+ $  * ma_pout = MATE mo_pout 'YOUN' 210e9 'NU' 0.3 
+ $  * 	'SECT' sect 'INRZ' inrz; 
+ $  *   
+ $  * * CONDITIONS AUX LIMITES **************************************** 
+ $  *   
+ $  * * Encastrement du point P1 
+ $  * enca = BLOQ 'DEPL' 'ROTA' P1; 
+ $  *   
+ $  * * Calcul de la matrice de rigidit้ 
+ $  * rigi1 = RIGI mo_pout ma_pout; 
+ $  * rigitot = enca et rigi1; 
+ $  *   
+ $  * * Chargement 
+ $  * char1 = FORC 'FY' (-1.*F) P2; 
+ $  *   
+ $  * * CALCUL ******************************************************** 
+ $  *   
+ $  * * R้solution 
+ $  * dep1 = RESO rigitot char1; 
+ Taille de la matrice: 6 Facteur: 1.3867     Conditionnement: 0.0000     Performance (Gflop/s): 0.0000
+ $  *   
+ $  * * Extraction du d้placement au point d'int้r๊t 
+ $  * dep_P2 = EXTR dep1 'UY' P2; 
+ $  * dep_P12 = EXTR dep1 'UY' P12; 
+ $  * dep_P1 = EXTR dep1 'UY' P1; 
+ $  *   
+ $  * * Export du r้sultat dans un fichier texte 
+ $  * * OPTI SORT 'output.txt'; 
+ $  * * SORT 'CHAI' dep_P2; 
+ $  * MESS 'dep_P1=' dep_P1; 
+dep_P1= 0.00000E+00
+ $  * MESS 'dep_P12=' dep_P12; 
+dep_P12= 0.00000E+00
+ $  * MESS 'dep_P2=' dep_P2; 
+dep_P2=-5.14286E-02
+ $  *   
+ $  * * Creation d'une table pour l'export EXCEL 
+ $  * T1 = 'PROG' dep_P1 dep_P12 dep_P2 ; 
+ $  *   
+ $  * ta_res = TABLE; 
+ $  * ta_res . 'dep' = T1; 
+ $  *   
+ $  *   
+ $  * OPTI SORT 'resultats_res.csv'; 
+ $  * SORT 'EXCE' ta_res; 
+ $  *   
+ $  * * Remarque : 
+ $  * * si dep_P2 ้tait une liste (PROG) il faudrait faire 
+ $  * * SORT 'EXCE' dep_P2; 
+ $  *   
+ $  * *  FIN DE l'EXECUTION ******************************************* 
+ $  *   
+ $  * FIN; 
+
+
+
+ **********     ARRET DU PROGRAMME CAST3M NIVEAU D'ERREUR:   0     **********
+
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                          INFORMATIONS FINALES                          บ
+ฬออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+บ DATE  DEBUT    : 01/02/2021      HEURE DEBUT : 19:19:22.44             บ
+บ DATE  FIN      : 01/02/2021      HEURE FIN   : 19:19:24.53             บ
+บ                                  DUREE       : 00:00:02,09             บ
+บ                                                                        บ
+บ Support  Cast3M : http://www-cast3m.cea.fr/index.php?page=mailsupport  บ
+บ Site Web Cast3M : http://www-cast3m.cea.fr/index.php                   บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
