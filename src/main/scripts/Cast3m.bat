@@ -3,7 +3,7 @@
 set PATH=%PATH%;C:\Cast3M\PCW_20\bin\
 
 :: echo stop to fill console when castem ask for keyboard input
-CALL echo "stop" | castem20.bat %*
+CALL echo "stop" | castem20.bat %1 > castem.out
 
 ::<nul timeout /t 1 
 ::for /F "TOKENS=1,2,*" %%a in ('tasklist /FI "IMAGENAME eq bin_Cast3M*"') do set PID_R=%%a
@@ -18,7 +18,7 @@ CALL echo "stop" | castem20.bat %*
 
 <nul timeout /t 10 
 
-for /F "TOKENS=*" %%a in ('findstr "ERREUR" out.txt') do set exit_line=%%a
+for /F "TOKENS=*" %%a in ('findstr "ERREUR" castem.out') do set exit_line=%%a
 
 ::echo %exit_line% > log2.txt
 

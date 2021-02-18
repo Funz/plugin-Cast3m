@@ -53,7 +53,7 @@ public class Cast3mCPlugin extends DefaultCalculatorPlugin {
                         }
                     }
 
-                    File out = new File(_dir, "out.txt");
+                    File out = new File(_dir, "castem.out");
                     if (out.exists()) {
                         _information = "" + countLines(out, "", true);
                     } else {

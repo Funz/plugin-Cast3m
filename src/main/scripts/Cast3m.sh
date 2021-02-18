@@ -1,9 +1,12 @@
 #!/bin/bash
 
-#FICH=$(basename $1)
-listing="out.txt"
+tr -d '\r' < $1 > $1.nor
+mv $1.nor $1
 
-nice -5 castem20 $* > $listing &
+#FICH=$(basename $1)
+listing="castem.out"
+
+nice -5 castem20 $1 > $listing &
 
 PID_CAST3M=$!
 echo $PID_CAST3M >> PID
@@ -16,7 +19,7 @@ if [[ ! -f $listing ]]; then
 fi
 
 # cleanup null chars
-cat $listing | tr -d '\000' > $listing
+#cat $listing | tr -d '\000' > $listing
 
 # Get the exit code (4 lines before end of file)
 EXIT_CODE=`tail -n 4 $listing | head -n 1 | sed 's/\*//g' | cut -f2 -d ":" | sed 's/ //g'`

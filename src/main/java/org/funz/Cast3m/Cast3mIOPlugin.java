@@ -35,7 +35,7 @@ import org.funz.util.ParserUtils;
  */
 public class Cast3mIOPlugin extends ExtendedIOPlugin {
 
-    private static final String OUTFILE_NAME = "out.txt";
+    private static final String OUTFILE_NAME = "castem.out";
     private static final String PLUGIN_INFO = "Cast3m plugin made by Artenum\nCopyright IRSN";
 
     /**
@@ -47,7 +47,13 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
         this.formulaStartSymbol = SyntaxRules.START_SYMBOL_PERCENT;
         this.formulaLimit = SyntaxRules.LIMIT_SYMBOL_BRACKETS;
         this.commentLine = "*";
-        this.setID("Cast3m");
+        String id = "Cast3m";
+        String class_str = this.getClass().getResource('/' + this.getClass().getName().replace('.', '/') + ".class").toString();
+        if (class_str.contains(".ioplugin.jar")) {
+            id = class_str.substring(0,class_str.indexOf(".ioplugin.jar"));
+            id = id.substring(id.lastIndexOf('/')+1);
+        }
+        this.setID(id);
         this.source = "https://github.com/Funz/plugin-Cast3m";
         this.doc_links = new String[] { "http://www-cast3m.cea.fr/" };
         this.information = Cast3mIOPlugin.PLUGIN_INFO;
