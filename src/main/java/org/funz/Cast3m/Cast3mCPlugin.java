@@ -22,6 +22,7 @@ import org.funz.calculator.plugin.DefaultCalculatorPlugin;
 import org.funz.calculator.plugin.DefaultCodeLauncher;
 import org.funz.calculator.plugin.OutputReader;
 import static org.funz.util.ParserUtils.countLines;
+import static org.funz.util.ParserUtils.getLastLineContaining;
 
 public class Cast3mCPlugin extends DefaultCalculatorPlugin {
 
@@ -54,10 +55,17 @@ public class Cast3mCPlugin extends DefaultCalculatorPlugin {
                     }
 
                     File out = new File(_dir, "castem.out");
+
                     if (out.exists()) {
-                        _information = "" + countLines(out, "", true);
-                    } else {
-                        _information = "0";
+                        _information = getLastLineContaining(out, "******");
+                    }
+
+                    if (_information==null || _information.length()<=0) {
+                        if (out.exists()) {
+                            _information = "" + countLines(out, "", true);
+                        } else {
+                            _information = "0";
+                        }
                     }
 
                     System.out.println("> Information sent : " + _information);
