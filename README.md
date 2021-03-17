@@ -1,3 +1,5 @@
+[![.github/workflows/ant.yml](https://github.com/Funz/plugin-Cast3m/actions/workflows/ant.yml/badge.svg)](https://github.com/Funz/plugin-Cast3m/actions/workflows/ant.yml) 
+
 # Funz Plugin Cast3m
 
 Cast3m plugin for Funz.
