@@ -6,6 +6,14 @@ mv $1.nor $1
 #FICH=$(basename $1)
 listing="castem.out"
 
+export NCPU=""
+NCPU_in=`grep "NCPU " $1 | sed 's/.*NCPU //' | tr '\n' ' ' | tr -d '\r'`
+  echo "parse NCPU "$NCPU_in
+if [ ! "$NCPU_in""zz" = "zz" ] ; then
+  export NCPU="-NCPU $NCPU_in"
+fi
+echo "NCPU: "$NCPU
+
 nice -5 castem20 $1 > $listing &
 
 PID_CAST3M=$!
