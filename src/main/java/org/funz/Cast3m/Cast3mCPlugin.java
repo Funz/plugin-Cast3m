@@ -57,7 +57,11 @@ public class Cast3mCPlugin extends DefaultCalculatorPlugin {
                     File out = new File(_dir, "castem.out");
 
                     if (out.exists()) {
-                        _information = getLastLineContaining(out, "******");
+                       String new_information = getLastLineContaining(out, "******").replace('*',(char)0) + getLastLineContaining(out, "PAS #");
+                       if (_information!=null && new_information!=null && new_information.equals(_information)) 
+                         continue;
+                       else
+                         _information = new_information;
                     }
 
                     if (_information==null || _information.length()<=0) {
