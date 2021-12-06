@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.net.ssl.SSLKeyException;
+
 import org.funz.ioplugin.ExtendedIOPlugin;
 import org.funz.log.Log;
 import org.funz.parameter.OutputFunctionExpression;
@@ -113,7 +115,6 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
 
                 // Look for 'TABLE'
                 final List<String> vars = new ArrayList<>(DGibiHelper.filterTable(lines, variable));
-
                 if (vars.isEmpty()) {
                     // Look for columns defined with 'EVOL MANU'
                     vars.addAll(DGibiHelper.filterEvolManu(lines, variable));
@@ -140,7 +141,6 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
             for (final Entry<String, String> entry : excel1Vars.entrySet()) {
                 this._output.put(entry.getKey(), DGibiHelper.FILE_OUTPUT_PREFIX + entry.getValue());
             }
-
         }
     }
 
