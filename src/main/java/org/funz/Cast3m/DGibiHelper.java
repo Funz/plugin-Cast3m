@@ -59,9 +59,9 @@ class DGibiHelper {
 
     private static final Pattern OPTI_SORT_PATTERN = DGibiHelper.compile("\\s*opti\\s+sort\\s+'([\\w\\.]+)'\\s*;");
 
-    private static final Pattern SORT_EXCE_PATTERN = DGibiHelper.compile("sort\\s+'exce(?:l)?'\\s+([\\w_]*);");
+    private static final Pattern SORT_EXCE_PATTERN = DGibiHelper.compile("sort\\s+'*exce(?:l)?'*\\s+([\\w_]*);");
 
-    private static final Pattern SORT_CHAI_PATTERN = DGibiHelper.compile("sort\\s+'chai(?:ne)?'\\s+([\\w_]*);");
+    private static final Pattern SORT_CHAI_PATTERN = DGibiHelper.compile("sort\\s+'*chai(?:ne)?'*\\s+([\\w_]*);");
 
     /**
      * @param path
@@ -192,7 +192,7 @@ class DGibiHelper {
             final int nextIndex = lines.indexOf(line) + 1;
 
             // look for
-            final Matcher optiMatcher = DGibiHelper.OPTI_SORT_PATTERN.matcher(line);
+            final Matcher optiMatcher = DGibiHelper.OPTI_SORT_PATTERN.matcher(line.toLowerCase());
             // this file is interesting! look the next line
             if (optiMatcher.find() && (nextIndex < lines.size())) {
                 final String filename = optiMatcher.group(1);
