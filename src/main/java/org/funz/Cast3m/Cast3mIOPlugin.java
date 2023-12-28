@@ -89,7 +89,7 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
     @Override
     public void setInputFiles(final File... inputfiles) {
         // input files
-        super.setInputfiles(inputfiles);
+        super.setInputFiles(inputfiles);
 
         // scan input files
         for (final File fdgibi : DGibiHelper.filterFiles("dgibi", inputfiles)) {
@@ -144,8 +144,8 @@ public class Cast3mIOPlugin extends ExtendedIOPlugin {
     }
 
     @Override
-    public HashMap<String, Object> readOutput(final File outdir) {
-        final HashMap<String, Object> lout = super.readOutput(outdir);
+    public Map<String, Object> readOutput(final File outdir) {
+        final Map<String, Object> lout = super.readOutput(outdir);
 
         // Read the "out.txt" (the output)
         this.readOutTxt(outdir, lout);
